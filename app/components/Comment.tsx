@@ -1,15 +1,21 @@
 'use client'
 import React, { useState } from 'react'
 import { Comment } from '../interfaces/comment.interface'
+import { signIn } from 'next-auth/react'
+import { SessionUser } from '../interfaces/user.interface'
 
 type Props = {
-  comment: Comment
+  comment: Comment,
+  user: SessionUser
 }
 
-const Comment = ({comment}: Props) => {
+const Comment = ({comment, user}: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const toggleReplying = () => {
+    if (!user) {
+      return signIn();
+    }
     setIsReplying(!isReplying);
   }
 
