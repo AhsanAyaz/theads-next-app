@@ -1,7 +1,7 @@
 "use server";
 
 export const getCommentsServerFunc = async (parentId: string | null) => {
-  let url = `http://localhost:3000/api/comments`;
+  let url = `${process.env.NEXT_BASE_URL}/api/comments`;
   if (parentId) {
     url += `?parentId=${parentId}`;
   }

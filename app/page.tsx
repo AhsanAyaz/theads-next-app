@@ -4,7 +4,7 @@ import { getCurrentUser } from "./lib/session";
 import { CommentWithUser } from "./lib/types";
 
 const getComments = async () => {
-  const resp = await fetch('http://localhost:3000/api/comments');
+  const resp = await fetch(`${process.env.NEXT_BASE_URL}/api/comments`);
   const { comments } = (await resp.json());
   return comments;
 }
