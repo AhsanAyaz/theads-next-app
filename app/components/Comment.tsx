@@ -97,7 +97,7 @@ const CommentComponent = ({comment, user}: Props) => {
           Reply
         </button>
 
-        <button>12 Likes</button>
+        <button>{comment.likes} Likes</button>
         {childrenCount > 0 && (
           <button
             onClick={toggleExpanded}
