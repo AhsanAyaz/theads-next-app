@@ -58,12 +58,14 @@ model VerificationToken {
 }
 
 model Comment {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  text       String
-  userId     String   @db.ObjectId
-  likes      Int  @default(0)
-  parentId   String? @db.ObjectId
-  parent     Comment? @relation(name: "parentId", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  children   Comment[] @relation("parentId")
-  user       User @relation(fields: [userId], references: [id])
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  userId    String    @db.ObjectId
+  likes     Int       @default(0)
+  parentId  String?   @db.ObjectId
+  parent    Comment?  @relation(name: "parentId", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children  Comment[] @relation("parentId")
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }

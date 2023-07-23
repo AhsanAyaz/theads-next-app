@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/api
-@parentCommentId = 64bbfe8eb2a8a5874b75719f
+@parentCommentId = 64bc6c694855b8f89cdc4753
 
 # @name getTopLevelComments
 GET {{baseUrl}}/comments HTTP/1.1
@@ -16,7 +16,7 @@ POST {{baseUrl}}/comments HTTP/1.1
 Content-Type: application/json
 
 {
-    "text": "Pear character lifting some weights saying 'Keep it up'",
+    "text": "This is nested comment",
     "userId": "64bbf31f5b408dedbfe6d0ea",
     "parentId": "{{parentCommentId}}"
 }

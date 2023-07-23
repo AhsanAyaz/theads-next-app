@@ -10,23 +10,34 @@ export const GET = async (req: NextRequest) => {
   let comments: Comment[];
   const searchParams = new URL(req.url).searchParams;
   const parentId = searchParams.get("parentId");
-  if (parentId) {
-    comments = await prisma.comment.findMany({
-      where: {
-        parentId,
-      },
-    });
-  } else {
-    comments = await prisma.comment.findMany({
-      where: {
-        parentId: {
-          not: {
-            isSet: true,
+  comments = await prisma.comment.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    where: {
+      parentId: parentId
+        ? parentId
+        : {
+            not: {
+              isSet: true,
+            },
           },
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          image: true,
+          name: true,
         },
       },
-    });
-  }
+      _count: {
+        select: {
+          children: true,
+        },
+      },
+    },
+  });
   return NextResponse.json({
     comments,
   });
@@ -34,16 +45,30 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   const session = await getServerSessionForNext13();
-  if (!session?.user) {
-    return NextResponse.json({
-      error: "Not authenticated",
-    });
-  }
+  // if (!session?.user) {
+  //   return NextResponse.json({
+  //     error: "Not authenticated",
+  //   });
+  // }
   const requestBody = await req.json();
   const newComment: Omit<Comment, "id"> = requestBody;
   const comment = await prisma.comment.create({
     data: {
       ...newComment,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          image: true,
+          name: true,
+        },
+      },
+      _count: {
+        select: {
+          children: true,
+        },
+      },
     },
   });
   return NextResponse.json({

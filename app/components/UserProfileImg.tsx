@@ -2,13 +2,10 @@
 import Image from 'next/image';
 import React from 'react'
 import { signIn, signOut } from "next-auth/react"
+import { User } from '@prisma/client';
 
 type Props = {
-  user: {
-    name?: string | null | undefined;
-    email?: string | null | undefined;
-    image?: string | null | undefined;
-  } | undefined
+  user: User | null
 }
 
 export const UserProfileImg = ({
